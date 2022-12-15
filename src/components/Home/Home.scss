@@ -1,0 +1,6 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;                                                            // Sayfada satır dolduğunda bir aşağı iner.
+    justify-content: space-around;                                              //Container'in içindeki componentler otomatik olarak hizalama boşluk ayarlarını yapar.
+    
+}
