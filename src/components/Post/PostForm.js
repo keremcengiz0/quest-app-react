@@ -11,11 +11,13 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Button, OutlinedInput } from "@material-ui/core";
+import { Button, OutlinedInput, Snackbar } from "@material-ui/core";
 import InputAdornment from '@mui/material/InputAdornment';
+import MuiAlert from '@mui/material/Alert';
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
 
 const useStyles = makeStyles((theme) => ({
@@ -88,8 +90,24 @@ function PostForm(props) {
     setText(value);
     setIsSent = false;
    }
+
+   const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setIsSent(false);
+  };
     
     return(
+        <div>
+            <Snackbar open={isSent} autoHideDuration={1200} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                    Your post has been sent!
+                </Alert>
+            </Snackbar>
+       
+
       <Card className={classes.root}>
       <CardHeader
           avatar={
@@ -133,6 +151,7 @@ function PostForm(props) {
           </Typography>
         </CardContent>
       </Card>
+    </div>
     );
 }
 
