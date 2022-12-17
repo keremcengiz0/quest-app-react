@@ -2,6 +2,7 @@ import Post from "../Post/Post";
 import React, {useState, useEffect} from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import PostForm from "../Post/PostForm";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -9,8 +10,7 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: "wrap",
         justifyContent : "center",
         alignItems : "center",
-        backgroundColor: '#cfe8fc', 
-        height: '100vh'
+        backgroundColor: '#f0f5ff', 
     }
 }));
 
@@ -20,7 +20,7 @@ function Home() {                                                    //React'da 
     const [postList, setPostList] = useState([]);                    //Data çekmediğimizde ilk durumda boş liste olur.
     const classes = useStyles();
 
-    useEffect(() => {
+    const refreshPosts = () => {
         fetch("/posts")                                              //Backend'de ayağa kalkan host ve Controller'de postun map adresi yazılır. Host adresini package.json dosyasına proxy olarak ekledik. Fetch yapıldığında otomatik olarak başına ekler.
         .then(response => response.json())                           // Gelen response'u json'a pars eder.
         .then(
@@ -35,7 +35,12 @@ function Home() {                                                    //React'da 
 
             }
         )
-    }, [])
+    }
+
+
+    useEffect(() => {
+      refreshPosts()
+    }, [postList])
 
     if(error) {                                                         //Error varsa ekrand Error!!! yazar.
         return <div> Error!!! </div>
@@ -43,11 +48,15 @@ function Home() {                                                    //React'da 
         <div> Loading... </div>
     } else {                                                            //Error yok, dosya başarıyla yüklendiyse
         return(
-            <Container fixed className = {classes.container}>
-            {postList.map(post => (
-                <Post userId = {post.userId} userName = {post.userName}  title={post.title} text={post.text}></Post>       //Home parent Post child oluyor. Burada oluşturduğumuz propsları Postta almamız gerekiyor.
-            ))}
-            </Container>
+            <div className = {classes.container}>
+                <ul>
+                    <PostForm userId = {1} userName = {"username"} refreshPosts = {refreshPosts}></PostForm>
+                    {postList.map(post => (
+                    <Post userId = {post.userId} userName = {post.userName}  title={post.title} text={post.text} ></Post>  //Home parent Post child oluyor. Burada oluşturduğumuz propsları Postta almamız gerekiyor.
+                ))}
+                </ul>
+            </div>
+            
         );
     }
 }

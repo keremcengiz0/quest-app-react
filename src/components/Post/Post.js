@@ -13,14 +13,16 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { FileDownload } from "@mui/icons-material";
+import { FileDownload, Margin } from "@mui/icons-material";
+import { color, style } from "@mui/system";
 
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 800,
-    textAlign : "left"
+    textAlign : "left",
+    margin : 20
   },
   media: {
     height: 0,
@@ -34,7 +36,9 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   avatar: {
-    backgroundColor: red[500],
+    background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+    variant : "circular"
+   
   },
   link: {
       textDecoration : "none",
