@@ -32,7 +32,7 @@ function Home() {                                                    //React'da 
             (error) => {                                             //Error geldiğinde içindeki kodları yap.
                 setIsLoaded(true);                                   //Error geldiğinde yine true yapılır. Sonuçta error da olsa kodumuz tamamlanmış ve bir sonuç dönmüş oldu.
                 setError(error);                                     //Error geldi.
-
+                console.log(error); 
             }
         )
     }
@@ -52,7 +52,8 @@ function Home() {                                                    //React'da 
                 <ul>
                     <PostForm userId = {1} userName = {"username"} refreshPosts = {refreshPosts}></PostForm>
                     {postList.map(post => (
-                    <Post userId = {post.userId} userName = {post.userName}  title={post.title} text={post.text} ></Post>  //Home parent Post child oluyor. Burada oluşturduğumuz propsları Postta almamız gerekiyor.
+                    <Post postId = {post.id} userId = {post.userId} userName = {post.userName}  
+                    title={post.title} text={post.text} ></Post>  //Home parent Post child oluyor. Burada oluşturduğumuz propsları Postta almamız gerekiyor.
                 ))}
                 </ul>
             </div>
