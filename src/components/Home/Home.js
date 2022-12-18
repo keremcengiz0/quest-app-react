@@ -52,7 +52,7 @@ function Home() {                                                    //React'da 
                 <ul>
                     <PostForm userId = {1} userName = {"username"} refreshPosts = {refreshPosts}></PostForm>
                     {postList.map(post => (
-                    <Post postId = {post.id} userId = {post.userId} userName = {post.userName}  
+                    <Post likes = {post.postLikes} postId = {post.id} userId = {post.userId} userName = {post.userName}  
                     title={post.title} text={post.text} ></Post>  //Home parent Post child oluyor. Burada oluşturduğumuz propsları Postta almamız gerekiyor.
                 ))}
                 </ul>
