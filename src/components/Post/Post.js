@@ -140,7 +140,7 @@ useEffect(() => {
     refreshComments();
   }
   
-}, [commentList])
+}, [])
 
 useEffect(() => {checkLikes()}, [])
     

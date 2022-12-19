@@ -40,7 +40,7 @@ function Home() {                                                    //React'da 
 
     useEffect(() => {
       refreshPosts()
-    }, [postList])
+    }, [])
 
     if(error) {                                                         //Error varsa ekrand Error!!! yazar.
         return <div> Error!!! </div>
