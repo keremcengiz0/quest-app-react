@@ -128,7 +128,6 @@ function Post(props) {
         (result) => {                                            
             setIsLoaded(true);                                   
             setCommentList(result);
-
         },
         (error) => {        
             console.log(error);                                    
@@ -204,7 +203,7 @@ useEffect(() => {checkLikes()}, [])
             <Comment userId = {1} userName = {"userName"} text = {comment.text}></Comment>
           )) : "Loading"}
           {disabled ? "" : 
-          <CommentForm  userId = {1} userName = {"userName"} postId = {postId}></CommentForm>}
+          <CommentForm  refreshCallbackFunc = {refreshComments} userId = {1} userName = {"userName"} postId = {postId}></CommentForm>}
           </Container>
       </Collapse>
       </Card>

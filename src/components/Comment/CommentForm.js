@@ -43,7 +43,7 @@ function CommentForm(props) {
                 text:text,
             }),
         })
-        .then((response) => response.json())
+        .then((response) => props.refreshCallbackFunc())
         .catch((err) => console.log("error"))
     }
    
