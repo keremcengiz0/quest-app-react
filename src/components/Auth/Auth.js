@@ -1,10 +1,14 @@
-import { FormControl, InputLabel, Input, Button, FormHelperText } from '@material-ui/core';
 import React, { useState } from 'react';
+import { FormControl, InputLabel, Input, Button, FormHelperText } from '@material-ui/core';
+import {useNavigate} from 'react-router-dom';
+
 
 function Auth() {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
+    let navigate = useNavigate();
 
 
     const handleUsername = (value) => {
@@ -28,10 +32,17 @@ function Auth() {
         })
         .then((response) => response.json())
         .then((result) => {
-                        localStorage.setItem("tokenKey", result.message);
-                        localStorage.setItem("currentUser", result.userId);
-                        localStorage.setItem("userName", username);
-                        })
+                        if(path == "register") {
+                            navigate("/auth")         
+                        }
+                        if(path == "login") {
+                            localStorage.setItem("tokenKey", result.message);
+                            localStorage.setItem("currentUser", result.userId);
+                            localStorage.setItem("userName", username);
+                            navigate("/")         
+                        }   
+                        
+                    })
         .catch((error) => console.log(error))
     }
 

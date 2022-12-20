@@ -60,8 +60,9 @@ function PostForm(props) {
         fetch("/posts",
         {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
+            headers : {
+              "Content-Type" : "application/json",
+              "Authorization" : localStorage.getItem("tokenKey"),
             },
             body: JSON.stringify({
                 title:title,
@@ -69,7 +70,7 @@ function PostForm(props) {
                 text:text,
             }),
         })
-        .then((response) => response.json())
+        .then((response) => response.json(), refreshPosts())
         .catch((err) => console.log("error"))
     }
 

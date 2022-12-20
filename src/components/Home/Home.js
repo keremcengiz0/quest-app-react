@@ -49,8 +49,10 @@ function Home() {                                                    //React'da 
     } else {                                                            //Error yok, dosya başarıyla yüklendiyse
         return(
             <div className = {classes.container}>
-                <ul>
-                    <PostForm userId = {1} userName = {"username"} refreshPosts = {refreshPosts}></PostForm>
+                <ul>    
+                    { localStorage.getItem("currentUser") == null ? "" : 
+                    <PostForm userId = {localStorage.getItem("currentUser")} userName = {localStorage.getItem("userName")} refreshPosts = {refreshPosts}></PostForm>} 
+                    
                     {postList.map(post => (
                     <Post likes = {post.postLikes} postId = {post.id} userId = {post.userId} userName = {post.userName}  
                     title={post.title} text={post.text} ></Post>  //Home parent Post child oluyor. Burada oluşturduğumuz propsları Postta almamız gerekiyor.
