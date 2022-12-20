@@ -37,7 +37,7 @@ function Navbar() {
         localStorage.removeItem("tokenKey");
         localStorage.removeItem("currentUser");
         localStorage.removeItem("userName");
-        navigate(0);
+        navigate("/auth");
     }
 
     return(
