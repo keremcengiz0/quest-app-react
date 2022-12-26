@@ -32,10 +32,10 @@ function Auth() {
         })
         .then((response) => response.json())
         .then((result) => {
-                        if(path == "register") {
+                        if(path === "register") {
                             navigate("/auth")         
                         }
-                        if(path == "login") {
+                        if(path === "login") {
                             localStorage.setItem("tokenKey", result.message);
                             localStorage.setItem("currentUser", result.userId);
                             localStorage.setItem("userName", username);

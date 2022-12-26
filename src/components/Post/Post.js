@@ -11,10 +11,7 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import {FileDownload, Margin } from "@mui/icons-material";
-import { color, style } from "@mui/system";
 import { Container } from "@material-ui/core";
 import Comment from "../Comment/Comment";
 import CommentForm from "../Comment/CommentForm";
@@ -63,9 +60,14 @@ function Post(props) {
     const isInitialMount = useRef(true);
     const [likeCount, setLikeCount] = useState(likes.length);  
     const [likeId, setLikeId] = useState(null);
+    const [refresh, setRefresh] = useState(false);
+
 
     let disabled = localStorage.getItem("currentUser") == null ? true : false;
 
+    const setCommentRefresh = () => {
+      setRefresh(true);
+    }
 
     const handleExpandClick = () => {
         setExpanded(!expanded)
@@ -136,6 +138,7 @@ function Post(props) {
 
         }
     )
+    setRefresh(false);
 }
 
 useEffect(() => {
@@ -146,7 +149,7 @@ useEffect(() => {
     refreshComments();
   }
   
-}, [])
+}, [refresh])
 
 useEffect(() => {checkLikes()}, [])
     
@@ -156,7 +159,7 @@ useEffect(() => {checkLikes()}, [])
           avatar={
           <Link  className={classes.link} to={{pathname : '/users/' + userId}}>
           <Avatar aria-label="recipe" className={classes.avatar}>
-            {userName.charAt(0).toUpperCase()}
+            {userName?.charAt(0).toUpperCase()}
           </Avatar>
           </Link>
           }
@@ -200,10 +203,10 @@ useEffect(() => {checkLikes()}, [])
           <Container fixed className={classes.container}>
           {error? "error":
           isLoaded? commentList.map(comment => (
-            <Comment userId = {1} userName = {"userName"} text = {comment.text}></Comment>
+            <Comment userId = {comment.userId} userName = {comment.userName} text = {comment.text}></Comment>
           )) : "Loading"}
           {disabled ? "" : 
-          <CommentForm  refreshCallbackFunc = {refreshComments} userId = {1} userName = {"userName"} postId = {postId}></CommentForm>}
+           <CommentForm userId = {localStorage.getItem("currentUser")} userName = {localStorage.getItem("userName")} postId = {postId} setCommentRefresh={setCommentRefresh}></CommentForm>}
           </Container>
       </Collapse>
       </Card>

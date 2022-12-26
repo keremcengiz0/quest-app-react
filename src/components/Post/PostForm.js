@@ -114,7 +114,7 @@ function PostForm(props) {
           avatar={
           <Link  className={classes.link} to={{pathname : '/users/' + userId}}>
           <Avatar aria-label="recipe" className={classes.avatar}>
-            {userName.charAt(0).toUpperCase()}
+            {userName?.charAt(0).toUpperCase()}
           </Avatar>
           </Link>
           }

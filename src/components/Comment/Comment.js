@@ -40,7 +40,7 @@ function Comment(props) {
                 <InputAdornment position="start">
                     <Link  className={classes.link} to={{pathname : '/users/' + userId}}>
                         <Avatar aria-label="recipe" className={classes.small}>
-                            {userName.charAt(0).toUpperCase()}
+                            {userName?.charAt(0).toUpperCase()}
                         </Avatar>
                     </Link>
                 </InputAdornment>
