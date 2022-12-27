@@ -3,6 +3,7 @@ import {useParams} from "react-router-dom";
 import Avatar from "../Avatar/Avatar"
 import { makeStyles } from '@material-ui/core/styles';
 import UserActivity from "../../UserActivity/UserActivity";
+import { GetWithAuth } from "../../services/HttpService";
 
 const useStyles = makeStyles({
     root: {
@@ -16,13 +17,7 @@ function User() {
     const [user, setUser] = useState();
 
     const getUser = () => {
-        fetch("/users/"+userId, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization" : localStorage.getItem("tokenKey"),
-          },
-        })
+        GetWithAuth("/users/"+userId)
         .then(res => res.json())
         .then(
             (result) => {

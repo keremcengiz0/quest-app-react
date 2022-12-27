@@ -1,19 +1,15 @@
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
-import CommentIcon from '@material-ui/icons/Comment';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { Button, OutlinedInput, Snackbar } from "@material-ui/core";
 import InputAdornment from '@mui/material/InputAdornment';
 import MuiAlert from '@mui/material/Alert';
+import { PostWithAuth } from "../../services/HttpService";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -57,19 +53,11 @@ function PostForm(props) {
     const [isSent, setIsSent] = useState(false); 
 
     const savePost = () => {
-        fetch("/posts",
-        {
-            method: "POST",
-            headers : {
-              "Content-Type" : "application/json",
-              "Authorization" : localStorage.getItem("tokenKey"),
-            },
-            body: JSON.stringify({
-                title:title,
-                userId:userId,
-                text:text,
-            }),
-        })
+      PostWithAuth("/posts", {
+        title:title,
+        userId:userId,
+        text:text,
+      })
         .then((response) => response.json(), refreshPosts())
         .catch((err) => console.log("error"))
     }

@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import Post from '../components/Post/Post';
-
+import { GetWithAuth } from '../services/HttpService';
 
 const useStyles = makeStyles({
     root: {
@@ -23,6 +23,9 @@ const useStyles = makeStyles({
     },
     container: {
       maxHeight: 440,
+      minWidth: 100,
+      maxWidth: 800,
+      marginTop: 50,
     },
     appBar: {
       position: 'relative',
@@ -44,13 +47,7 @@ const useStyles = makeStyles({
       const [post, setPost] = useState();
   
       const getPost = () => {
-          fetch("/posts/"+postId, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization" : localStorage.getItem("tokenKey"),
-            },
-          })
+        GetWithAuth("/posts/"+postId)
           .then(res => res.json())
           .then(
               (result) => {

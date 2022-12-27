@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FormControl, InputLabel, Input, Button, FormHelperText } from '@material-ui/core';
 import {useNavigate} from 'react-router-dom';
-
+import { PostWithAuth } from '../../services/HttpService';
 
 function Auth() {
 
@@ -20,15 +20,9 @@ function Auth() {
     }
 
     const sendRequest = (path) => {
-        fetch("/auth/" + path, {
-            method : "POST",
-            headers : {
-                "Content-Type" : "application/json",
-            },
-            body : JSON.stringify({
-                userName : username,
-                password : password,
-            }),
+        PostWithAuth("/auth/" + path, {
+            userName : username,
+            password : password,
         })
         .then((response) => response.json())
         .then((result) => {
@@ -41,7 +35,6 @@ function Auth() {
                             localStorage.setItem("userName", username);
                             navigate("/")         
                         }   
-                        
                     })
         .catch((error) => console.log(error))
     }

@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {ListItem, List, ListItemSecondaryAction, Radio} from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
+import { PutWithAuth } from '../../services/HttpService';
 
 const useStyles = makeStyles({
     root: {
@@ -32,21 +33,12 @@ function Avatar(props) {
   }, []);
 
   const saveAvatar = () => {
-    console.log("HELLO")
-    fetch("/users/"+localStorage.getItem("currentUser"), {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization" : localStorage.getItem("tokenKey"),
-      },
-      body: JSON.stringify({
-        avatar: selectedValue,
-      }),
+    PutWithAuth("/users/"+localStorage.getItem("currentUser"), {
+      avatar: selectedValue,
     })
       .then((res) => res.json())
       .catch((err) => console.log(err))
     }
-
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);

@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import React, {useRef, useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
-import { Button,Snackbar } from "@material-ui/core";
+import { Button} from "@material-ui/core";
+import { PostWithAuth } from '../../services/HttpService';
 
 const useStyles = makeStyles((theme) => ({
     comment: {
@@ -30,18 +31,10 @@ function CommentForm(props) {
     const [text, setText] = useState("");
 
     const saveComment = () => {
-        fetch("/comments",
-        {
-            method: "POST",
-            headers : {
-                "Content-Type" : "application/json",
-                "Authorization" : localStorage.getItem("tokenKey"),
-              },
-            body: JSON.stringify({
-                postId : postId,
-                userId:userId,
-                text:text,
-            }),
+        PostWithAuth("/comments", {
+            postId : postId,
+            userId:userId,
+            text:text,
         })
         .then((response) => props.refreshCallbackFunc())
         .catch((err) => console.log("error"))

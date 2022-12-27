@@ -15,7 +15,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Container } from "@material-ui/core";
 import Comment from "../Comment/Comment";
 import CommentForm from "../Comment/CommentForm";
-
+import { PostWithAuth, DeleteWithAuth } from "../../services/HttpService";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -88,28 +88,16 @@ function Post(props) {
    }
 
    const saveLike = () => {
-    fetch("/likes", {
-      method : "POST",
-      headers : {
-        "Content-Type" : "application/json",
-        "Authorization" : localStorage.getItem("tokenKey"),
-      },
-      body : JSON.stringify({
-        postId : postId,
-        userId : localStorage.getItem("currentUser"),
-      }),
+    PostWithAuth("/likes", {
+      postId : postId,
+      userId : localStorage.getItem("currentUser"),
     })
       .then((response) => response.json())
       .catch((error) => console.log(error))
    }
 
    const deleteLike = () => {
-    fetch("/likes/" + likeId, {
-      method : "DELETE",
-      headers : {
-        "Authorization" : localStorage.getItem("tokenKey"),
-      },
-    })
+    DeleteWithAuth("/likes/" + likeId)
       .catch((error) => console.log(error))
    }
 
