@@ -206,7 +206,7 @@ useEffect(() => {checkLikes()}, [])
             <Comment userId = {comment.userId} userName = {comment.userName} text = {comment.text}></Comment>
           )) : "Loading"}
           {disabled ? "" : 
-           <CommentForm userId = {localStorage.getItem("currentUser")} userName = {localStorage.getItem("userName")} postId = {postId} setCommentRefresh={setCommentRefresh}></CommentForm>}
+           <CommentForm refreshCallbackFunc = {refreshComments} userId = {localStorage.getItem("currentUser")} userName = {localStorage.getItem("userName")} postId = {postId} setCommentRefresh={setCommentRefresh}></CommentForm>}
           </Container>
       </Collapse>
       </Card>
