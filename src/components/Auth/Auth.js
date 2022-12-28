@@ -30,7 +30,8 @@ function Auth() {
                             navigate("/auth")         
                         }
                         if(path === "login") {
-                            localStorage.setItem("tokenKey", result.message);
+                            localStorage.setItem("tokenKey", result.accessToken);
+                            localStorage.setItem("refreshKey", result.refreshToken);
                             localStorage.setItem("currentUser", result.userId);
                             localStorage.setItem("userName", username);
                             navigate("/")         

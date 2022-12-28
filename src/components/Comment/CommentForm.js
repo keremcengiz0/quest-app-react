@@ -1,10 +1,10 @@
-import { CardContent, Input, InputAdornment, OutlinedInput } from '@material-ui/core';
+import { CardContent, InputAdornment, OutlinedInput } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React, {useRef, useState, useEffect} from "react";
-import {Link} from "react-router-dom";
+import React, {useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import { Button} from "@material-ui/core";
-import { PostWithAuth } from '../../services/HttpService';
+import { PostWithAuth, RefreshToken } from '../../services/HttpService';
 
 const useStyles = makeStyles((theme) => ({
     comment: {
@@ -26,9 +26,19 @@ const useStyles = makeStyles((theme) => ({
 
 
 function CommentForm(props) {
-    const {userId, userName, postId} = props;
+    const {userId, userName, postId, setCommentRefresh} = props;
     const classes = useStyles();
     const [text, setText] = useState("");
+
+    let navigate = useNavigate();
+
+    const logout = () => {
+        localStorage.removeItem("tokenKey");
+        localStorage.removeItem("currentUser");
+        localStorage.removeItem("refreshKey");
+        localStorage.removeItem("userName");
+        navigate("/auth");
+      }
 
     const saveComment = () => {
         PostWithAuth("/comments", {
@@ -36,8 +46,32 @@ function CommentForm(props) {
             userId:userId,
             text:text,
         })
-        .then((response) => props.refreshCallbackFunc())
-        .catch((err) => console.log("error"))
+        .then((res) => {
+            props.refreshCallbackFunc();
+            if(!res.ok) {
+                RefreshToken()
+                .then((res) => { if(!res.ok) {
+                    logout();
+                } else {
+                   return res.json();
+                }})
+                .then((result) => {
+                    console.log(result);
+                    if(result !== undefined){
+                        localStorage.setItem("tokenKey",result.accessToken);
+                        saveComment();
+                        setCommentRefresh();
+                        props.refreshCallbackFunc();
+                    }})
+                .catch((err) => {
+                    console.log(err);
+                })
+            } else 
+            res.json();
+        })
+          .catch((err) => {
+            console.log(err);
+          })
     }
    
     const handleSubmit = () => {
